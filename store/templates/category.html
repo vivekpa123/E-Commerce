@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<header class="purple-gradient py-4">
+    <div class="container text-center">
+        <h1 class="display-5 fw-bolder">{{ category }}</h1>
+        <p class="lead fw-normal text-white-50">Explore the Best Books in This Category</p>
+    </div>
+</header>
+
+<!-- Section -->
+<section class="py-4">
+    <div class="container">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+            
+            {% for product in products %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    
+                    <!-- Sale Badge -->
+                    {% if product.is_sale %}
+                    <span class="badge-sale">SALE</span>
+                    {% endif %}
+
+                    <!-- Product Image -->
+                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+                    
+                    <!-- Product Details -->
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold text-purple">{{ product.name }}</h5>
+
+                        {% if product.is_sale %}
+                        <p class="text-danger mb-1">
+                            <strike>₹{{ product.price }}</strike> &nbsp;
+                            <b class="text-success">₹{{ product.sale_price }}</b>
+                        </p>
+                        {% else %}
+                        <p class="fw-bold">₹{{ product.price }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Product Actions -->
+                    <div class="card-footer bg-transparent border-top-0 text-center">
+                        <a href="{% url 'product' product.id %}" class="btn purple-btn">View Product</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+
+
+<style>
+    /* Header Styling */
+    .purple-gradient {
+        background: linear-gradient(135deg, #6a0dad, #8a2be2);
+        color: white;
+        text-align: center;
+    }
+
+    /* Sale Badge */
+    .badge-sale {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: red;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+
+    /* Product Card */
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.03);
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-purple {
+        color: #8a2be2;
+    }
+
+    /* Button */
+    .purple-btn {
+        background-color: #8a2be2;
+        color: white;
+        font-size: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        width: 80%;
+        transition: 0.3s;
+    }
+
+    .purple-btn:hover {
+        background-color: #6a0dad;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .row-cols-md-3 { row-gap: 1rem; }
+    }
+</style>
+
+{% endblock %}

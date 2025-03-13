@@ -1,0 +1,263 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand fw-bold text-uppercase" href="{% url 'home' %}">📚 The Book Loft</a>
+        <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'search' %}">Search</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                
+                {% if user.is_authenticated %}
+                
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" 
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                    Profile</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'update_info' %}">User Info</a></li>
+                    </ul>
+                </li>
+
+                    {% if user.is_superuser %}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" 
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                    Orders</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Shipped Orders</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Un-Shipped Orders</a></li>
+                    </ul>
+                </li>
+                    {% endif %}
+
+
+
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+
+               
+                <li class="nav-item"><a class="nav-link" href="{% url 'category_summary' %}">Categories</a></li>
+                        
+                        
+                </li>
+            </ul>
+            <form class="d-flex">
+                <a href="{% url 'cart_summary' %}" class="btn cart-btn">
+                    <i class="bi-cart-fill me-1"></i> Cart
+                    <span class="badge cart-badge" id="cart_quantity">{{ cart|length }}</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- CSS Styling -->
+<style>
+    /* Elegant Navbar */
+    .navbar {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Subtle Gradient */
+        padding: 12px 20px;
+        border-bottom: 2px solid #ddd;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Navbar Brand */
+    .navbar-brand {
+        font-size: 24px;
+        color: #222 !important;
+        transition: color 0.3s ease-in-out;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .navbar-brand:hover {
+        color: #007bff !important;
+    }
+
+    /* Navbar Links */
+    .nav-link {
+        font-size: 17px;
+        color: #444 !important;
+        font-weight: 500;
+        transition: all 0.3s ease-in-out;
+        padding: 8px 12px;
+        border-radius: 6px;
+    }
+
+    .nav-link:hover {
+        background: rgba(0, 123, 255, 0.1);
+        color: #007bff !important;
+    }
+
+    /* Dropdown Styling */
+    .dropdown-menu {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .dropdown-item {
+        color: #333 !important;
+        transition: all 0.3s ease-in-out;
+        padding: 10px 15px;
+    }
+
+    .dropdown-item:hover {
+        background: #f1f1f1;
+        color: #007bff !important;
+        border-radius: 6px;
+    }
+
+    /* Cart Button */
+    .cart-btn {
+        background: #007bff;
+        color: white;
+        font-weight: bold;
+        padding: 10px 15px;
+        border-radius: 30px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .cart-btn:hover {
+        background: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* Cart Badge */
+    .cart-badge {
+        background: #333;
+        color: white;
+        font-size: 14px;
+        border-radius: 50%;
+        padding: 5px 10px;
+        margin-left: 5px;
+    }
+
+    /* Navbar Toggler */
+    .custom-toggler {
+        border: none;
+        background: transparent;
+    }
+
+    .navbar-toggler-icon {
+        filter: brightness(0.5);
+    }
+
+    .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Navigation-->
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="{% url 'home' %}">The Book Loft</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                {% endif %} -->
+
+
+                
+
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Programming-Books' %}">Programming Books</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Marketing-Books' %}">Marketing books</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark"><i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
+                </a>
+                
+            </form>
+        </div>
+    </div>
+</nav> -->

@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% block content %}
+ <!-- Header-->
+ <header class="about-header">
+    <div class="container text-center">
+        <h1 class="about-title">Search Products</h1>
+        <p class="about-subtitle">Let's Find <span>What are you</span> – Looking For!</p>
+    </div>
+</header>
+
+<br/><br/><br/>
+<br/>
+<style>
+    /* Header Styling */
+    .about-header {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        padding: 40px 0;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .about-subtitle {
+        font-size: 16px;
+        font-weight: 400;
+        color: #f8f9fa;
+    }
+
+    .about-subtitle span {
+        font-weight: 600;
+        color: #ffeb3b;
+    }
+
+    /* Search Card Styling */
+    .search-card {
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Search Input */
+    .search-input {
+        border-radius: 20px 0 0 20px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Search Button */
+    .search-btn {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        font-size: 16px;
+        border-radius: 0 20px 20px 0;
+        padding: 10px 15px;
+        transition: 0.3s;
+        border: none;
+    }
+
+    .search-btn:hover {
+        background: #4b0082;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Product Card Styling */
+    .product-card {
+        width: 260px;
+        margin: 15px auto;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+    }
+
+    .product-img {
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .product-body {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .product-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        font-size: 14px;
+        font-weight: 600;
+        color: #e74c3c;
+    }
+
+    .badge-sale {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background-color: red;
+        color: white;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+
+    /* Button Styling */
+    .view-btn {
+        background-color: black;
+        color: white;
+        font-size: 14px;
+        padding: 8px 12px;
+        margin-top: 6px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        width: 85%;
+        transition: 0.3s;
+    }
+
+    .view-btn:hover {
+        background-color: #444;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .product-card {
+            width: 220px;
+        }
+
+        .product-img {
+            height: 150px;
+        }
+    }
+</style>
+
+<!-- Search Form -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <br />
+            <div class="card search-card">
+                <div class="card-header text-center bg-dark text-white">
+                    🔍 Search Products 
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control search-input" placeholder="Search for Products..." name="searched">
+                            <button type="submit" class="btn search-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/><br/>
+
+<!-- Search Results -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        {% if searched %}
+            {% for product in searched %}
+                <div class="col-md-3">
+                    <div class="card product-card">
+                        {% if product.is_sale %}
+                            <span class="badge-sale">SALE</span>
+                        {% endif %}
+                        <img class="card-img-top product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <div class="card-body product-body">
+                            <h5 class="product-title">{{ product.name }}</h5>
+                            {% if product.is_sale %}
+                                <p class="product-price">
+                                    <strike>₹{{ product.price }}</strike> 
+                                    <b class="text-success">₹{{ product.sale_price }}</b>
+                                </p>
+                            {% else %}
+                                <p class="product-price">₹{{ product.price }}</p>
+                            {% endif %}
+                            <a href="{% url 'product' product.id %}" class="view-btn">View Product</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

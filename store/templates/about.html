@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block content %}
+ <!-- Header-->
+ <header class="about-header">
+    <div class="container text-center">
+        <h1 class="about-title">About Us</h1>
+        <p class="about-subtitle">Welcome to <span>The Book Loft</span> – Your One-Stop Bookstore!</p>
+    </div>
+</header>
+
+<style>
+    /* Elegant & Attractive Header */
+    .about-header {
+        background: linear-gradient(135deg, #6a11cb, #2575fc); /* Stylish gradient */
+        padding: 60px 0;
+        text-align: center;
+        border-radius: 10px; /* Smooth edges */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1.2s ease-in-out;
+    }
+
+    /* Title Styling */
+    .about-title {
+        font-size: 42px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 12px;
+        letter-spacing: 1px;
+        animation: slideDown 1s ease-in-out;
+    }
+
+    /* Subtitle Styling */
+    .about-subtitle {
+        font-size: 20px;
+        font-weight: 400;
+        color: #f8f9fa;
+        font-style: italic;
+        animation: fadeIn 1.5s ease-in-out 0.5s forwards;
+    }
+
+    .about-subtitle span {
+        font-weight: 600;
+        color: #ffeb3b; /* Gold accent */
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Slide-down animation */
+    @keyframes slideDown {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>
+
+
+<div class="container about-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <br /><br />
+            <div class="text-center">
+                <h2 class="about-title">📚 About Us - The Book Loft</h2>
+                <p class="about-subtitle">Your Ultimate Online Bookstore</p>
+            </div>
+
+            <p class="about-text">
+                Welcome to <b>The Book Loft</b>, your ultimate online destination for book lovers! We are passionate about bringing stories, knowledge, and imagination to readers worldwide. Our mission is to create a seamless, enjoyable, and affordable book-buying experience, ensuring that every reader finds their perfect book, whether it’s a timeless classic, a bestseller, or an undiscovered gem.
+            </p>
+
+            <h3 class="about-heading">📖 Who We Are</h3>
+            <p class="about-text">
+                At <b>The Book Loft</b>, we believe that books have the power to transform lives, inspire minds, and open new horizons. Our journey began with a simple idea: to make books accessible to everyone, anytime, anywhere. With a vast collection spanning various genres, including fiction, non-fiction, self-help, academic, children’s literature, and more, we cater to readers of all interests and ages.
+            </p>
+
+            <h3 class="about-heading">🛒 What We Offer</h3>
+            <ul class="about-list">
+                <li><b>📚 Diverse Collection –</b> From bestsellers to rare finds, our curated selection ensures you always have something exciting to read.</li>
+                <li><b>🖥️ Easy Navigation –</b> Our user-friendly website allows you to browse effortlessly, discover new books, and make quick purchases.</li>
+                <li><b>💰 Affordable Prices & Discounts –</b> We offer competitive pricing, special deals, and exclusive discounts to make reading affordable for everyone.</li>
+                <li><b>🚚 Fast & Reliable Delivery –</b> Get your favorite books delivered to your doorstep with our efficient shipping services.</li>
+                <li><b>🔒 Secure Payments –</b> We provide safe and hassle-free payment options to ensure a smooth checkout experience.</li>
+            </ul>
+
+            <h3 class="about-heading">🌟 Why Choose Us?</h3>
+            <ul class="about-list">
+                <li><b>❤️ Passionate About Books –</b> We are book lovers just like you! Our carefully selected inventory reflects our dedication to quality literature.</li>
+                <li><b>🤝 Customer-Centric Approach –</b> Your satisfaction is our priority. We strive to provide excellent customer service and a seamless shopping experience.</li>
+                <li><b>📢 Community of Readers –</b> Join our reading community, participate in discussions, and stay updated with our book recommendations and reviews.</li>
+            </ul>
+
+            <p class="about-text text-center">
+                At <b>The Book Loft</b>, we believe every book has a story to tell, and we are here to bring those stories to you.  
+                <br><br> <b>Happy Reading! 📚✨</b>
+            </p>
+
+            <br /><br />
+        </div>
+    </div>
+</div>
+
+<style>
+    /* General Styling */
+    .about-container {
+        background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+        padding: 50px 20px;
+        border-radius: 15px;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Title Styling */
+    .about-title {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .about-subtitle {
+        font-size: 18px;
+        font-weight: 500;
+        color: #7f8c8d;
+        margin-bottom: 20px;
+    }
+
+    /* Section Headings */
+    .about-heading {
+        font-size: 22px;
+        font-weight: bold;
+        color: #34495e;
+        margin-top: 20px;
+        border-left: 5px solid #3498db;
+        padding-left: 10px;
+    }
+
+    /* Paragraph Styling */
+    .about-text {
+        font-size: 16px;
+        color: #555;
+        text-align: justify;
+        line-height: 1.6;
+    }
+
+    /* List Styling */
+    .about-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .about-list li {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .about-list li b {
+        color: #2c3e50;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .about-title {
+            font-size: 28px;
+        }
+
+        .about-text {
+            font-size: 15px;
+        }
+
+        .about-heading {
+            font-size: 20px;
+        }
+    }
+</style>
+
+{% endblock %}

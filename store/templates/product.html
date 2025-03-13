@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% block content %}
+ 
+
+<div class="container">
+  <br/><br/>
+  <div class="card product-card">
+      <div class="row g-0">
+          <!-- Product Image Section -->
+          <div class="col-md-5">
+              <img src="{{ product.image.url }}" class="img-fluid rounded-start product-img" alt="Product Image">
+          </div>
+
+          <!-- Product Details Section -->
+          <div class="col-md-7">
+              <div class="card-body">
+                  <center>
+                      <h3 class="card-title product-title">{{ product.name }}</h3>
+                      <p class="card-text product-desc">{{ product.description }}</p>
+
+                      <!-- Sale Badge -->
+                      {% if product.is_sale %}
+                      <div class="badge-sale">
+                          <span>🔥 Sale!</span>
+                      </div>
+                      <p class="product-price">
+                          <strike>${{ product.price }}</strike> &nbsp;
+                          <span class="sale-price">${{ product.sale_price }}</span>
+                      </p>
+                      {% else %}
+                      <p class="product-price">${{ product.price }}</p>
+                      {% endif %}
+
+                      <!-- Quantity Selector -->
+                      <div class="quantity-container">
+                          <label for="qty-cart">Quantity:</label>
+                          <select class="form-select form-select-sm qty-select" id="qty-cart">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                          </select>
+                      </div>
+
+                      <!-- Action Buttons -->
+                      <div class="button-container">
+                          <a href="{% url 'home' %}" class="btn btn-home">🏠 Home</a>
+                          <button type="button" value="{{ product.id }}" class="btn btn-cart" id="add-cart">🛒 Add To Cart</button>
+                      </div>
+                  </center>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<br/><br/><br/><br/><br/><br/>
+<style>
+  /* Main Product Card Styling */
+  .product-card {
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 20px;
+  }
+
+  .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Product Image */
+  .product-img {
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+      object-fit: cover;
+      height: 100%;
+  }
+
+  /* Product Title */
+  .product-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+  }
+
+  /* Product Description */
+  .product-desc {
+      font-size: 16px;
+      color: #666;
+      text-align: justify;
+  }
+
+  /* Sale Badge */
+  .badge-sale {
+      background: #ff4757;
+      color: white;
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+
+  /* Price Styling */
+  .product-price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #2c3e50;
+  }
+
+  .sale-price {
+      color: #ff4757;
+      font-size: 22px;
+      font-weight: bold;
+  }
+
+  /* Quantity Selector */
+  .quantity-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+  }
+
+  .qty-select {
+      width: 60px;
+      margin-left: 10px;
+  }
+
+  /* Buttons */
+  .button-container {
+      margin-top: 15px;
+  }
+
+  .btn-home,
+  .btn-cart {
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+  }
+
+  .btn-home {
+      background: #3498db;
+      color: white;
+  }
+
+  .btn-cart {
+      background: #27ae60;
+      color: white;
+  }
+
+  .btn-home:hover {
+      background: #2980b9;
+  }
+
+  .btn-cart:hover {
+      background: #218c53;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      .product-img {
+          border-radius: 15px;
+          height: auto;
+      }
+
+      .product-card {
+          text-align: center;
+      }
+  }
+</style>
+
+
+<script>
+// check if bbutton pressed
+$(document).on('click', '#add-cart', function(e){
+  e.preventDefault();
+  $.ajax({ 
+     type: 'POST',
+     url: '{% url 'cart_add' %}',
+     data: {
+        product_id: $('#add-cart').val(),
+        product_qty: $('#qty-cart option:selected').text(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+
+      success: function(json){
+        //console.log(json)
+        document.getElementById("cart_quantity").textContent = json.qty
+        location.reload();
+      },
+      error: function(xhr, errmsg, err){  
+
+      }
+  });
+})
+
+
+</script> 
+
+
+{% endblock %}
+
+
+
+<!-- 
+$(document).on('click', '#add-cart', function(e){
+  e.preventDefault();
+  
+  let url = $(this).data('url');  // Get URL from data attribute
+  let product_id = $(this).val(); // Get product ID from button value
+
+  $.ajax({ 
+     type: 'POST',
+     url: url,
+     data: {
+        product_id: product_id,
+        csrfmiddlewaretoken: '{{ csrf_token }}', // Fix typo (csrfmiddlewaretoke -> csrfmiddlewaretoken)
+        action: 'post'
+      },
+      success: function(json){
+        console.log(json);
+      },
+      error: function(xhr, errmsg, err){
+        console.log(errmsg);
+      }
+  });
+}); -->

@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="cart-header">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="cart-title">🛍️ Your Shopping Cart</h1>
+            <p class="cart-subtitle">Review and manage your items before checkout</p>
+        </div>
+    </div>
+</header>
+<br/><br/><br/>
+<style>
+    /* Header Styling */
+    .cart-header {
+        background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+        padding: 60px 0;
+        text-align: center;
+        border-radius: 0 0 50px 50px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-title {
+        font-size: 42px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .cart-subtitle {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    /* Product Cards */
+    .card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        overflow: hidden;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: none;
+    }
+
+    .card:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+    }
+
+    .product-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .card-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 10px;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #555;
+        text-align: justify;
+    }
+
+    .product-price {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ff6f61;
+    }
+
+    .strike-price {
+        text-decoration: line-through;
+        color: #888;
+        font-size: 18px;
+    }
+
+    .sale-badge {
+        background: linear-gradient(135deg, #ff9800, #ff5722);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    /* Buttons */
+    .btn {
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+        border-radius: 25px;
+        padding: 10px 15px;
+    }
+
+    .btn-home {
+        background:#60A5FA ;
+        color: white;
+    }
+
+    .btn-update {
+        background: #6B7280;
+        color: white;
+    }
+
+    .btn-delete {
+        background: #E11D48;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    /* Quantity Dropdown */
+    .form-select {
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        transition: 0.3s;
+    }
+
+    .form-select:focus {
+        border-color: #ff6f61;
+        box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+    }
+
+    /* Cart total section */
+    .cart-total {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .cart-total h3 {
+        font-size: 26px;
+        font-weight: bold;
+        color: #333;
+    }
+    .cart-message {
+    text-align: center; /* Centers text horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers text vertically */
+    align-items: center; /* Ensures horizontal centering */
+    height: 200px; /* Adjust based on your layout */
+}
+
+</style>
+
+<br/>
+
+<div class="container">
+    {% if cart_products %}
+    <div class="row">
+        {% for product in cart_products %}
+        <div class="col-md-6">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ product.image.url }}" alt="Product Image" class="product-img">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+
+                            {% if product.is_sale %}
+                            <div class="d-flex justify-content-center">
+                                <span class="sale-badge">🔥 Sale!!</span>
+                            </div>
+                            <span class="strike-price">₹{{ product.price }}</span>
+                            <span class="product-price">₹{{ product.sale_price }}</span>
+                            {% else %}
+                            <span class="product-price">₹{{ product.price }}</span>
+                            {% endif %}
+
+                            <div class="row justify-content-center mt-3">
+                                <div class="col-md-3">Quantity:</div>
+                                <div class="col-md-4">
+                                    <select class="form-select form-select-sm update-quantity" data-product-id="{{ product.id }}">
+                                        {% for key, value in quantities.items %}
+                                            {% if key == product.id|slugify %}
+                                                <option selected>{{ value }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="btn-group mt-3">
+                                <a href="{% url 'home' %}" class="btn btn-home">Home</a>
+                                <button type="button" data-index="{{ product.id }}" class="btn btn-update update-cart">Update</button>
+                                <button type="button" data-index="{{ product.id }}" class="btn btn-delete delete-product">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Cart Total & Checkout Button -->
+    <div class="cart-total">
+        <h3>Total: <span class="product-price">₹{{ totals }}</span></h3>
+        <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+    </div>
+    <br/><br/>
+    {% else %}
+    <div class="cart-message">
+        <h2>🛒 Your Cart is Empty!</h2>
+        <p>Looks like you haven’t added anything yet.</p>
+    </div>    
+    {% endif %}
+</div>
+
+<script>
+    // Update cart
+    $(document).on('click', '.update-cart', function(e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+        var quantity = $('.update-quantity[data-product-id="' + productid + '"]').val();
+
+        $.ajax({ 
+            type: 'POST',
+            url: '{% url 'cart_update' %}',
+            data: {
+                product_id: productid,
+                product_qty: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(){
+                location.reload();
+            },
+            error: function(){
+                alert("Error updating cart. Please try again.");
+            }
+        });
+    });
+
+    // Remove item from cart
+    $(document).on('click', '.delete-product', function(e){
+        e.preventDefault();
+        var productid = $(this).data('index');
+
+        $.ajax({ 
+            type: 'POST',
+            url: '{% url 'cart_delete' %}',
+            data: {
+                product_id: productid,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(){
+                location.reload();
+            },
+            error: function(){
+                alert("Error deleting item. Please try again.");
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- $(document).on('click', '.update-cart', function(e){
+    e.preventDefault();
+    // Grab the product id
+    var productid = $(this).data('index');
+
+    $.ajax({ 
+        type: 'POST',
+        url: '{% url 'cart_update' %}',
+        data: {
+           product_id:  $(this).data('index'),
+           product_qty: $('#select' + productid + ' option:selected').text(),
+           csrfmiddlewaretoken: '{{ csrf_token }}',
+           action: 'post'
+        },
+       
+       success: function(json){
+       //console.log(json)
+       // document.getElementById("cart_quantity").textContent = json.qty
+       location.reload();
+        },
+      error: function(xhr, errmsg, err){
+       
+      }
+   });
+}) -->

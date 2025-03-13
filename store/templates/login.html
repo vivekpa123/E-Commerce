@@ -1,0 +1,106 @@
+{% extends 'base.html' %} 
+{% block content %}  
+
+<!-- Header -->
+<header class="purple-gradient py-3">  
+    <div class="container px-4 px-lg-5">  
+        <div class="text-center text-white">  
+            <h1 class="display-6 fw-bolder">Login</h1>  
+            <p class="lead fw-normal text-white-50 mb-0">Access Your Account</p>  
+        </div>  
+    </div>  
+</header>  
+<br/><br/><br/><br/><br/><br/><br/>
+<!-- Login Form -->
+<div class="container d-flex justify-content-center align-items-center py-4">  
+    <div class="login-card p-4 shadow-lg">  
+        <h2 class="text-center mb-3 text-purple">🔑 Login</h2>  
+
+        <form method="POST" action="{% url 'login' %}">  
+            {% csrf_token %}  
+
+            <div class="mb-2">  
+                <input type="text" class="form-control login-input" name="username" placeholder="Enter Your Username" required>  
+            </div>  
+
+            <div class="mb-2">  
+                <input type="password" class="form-control login-input" name="password" placeholder="Enter Your Password" required>  
+            </div>  
+
+            <div class="text-center">  
+                <button type="submit" class="btn purple-btn">Login</button>  
+            </div>  
+        </form>  
+
+        <div class="text-center mt-2">  
+            <p>Don't have an account? <a href="{% url 'register' %}" class="register-link">Sign up</a></p>  
+        </div>  
+    </div>  
+</div>  
+<br/><br/><br/><br/><br/><br/>
+<style>  
+    /* Header Styling */  
+    .purple-gradient {  
+        background: linear-gradient(135deg, #6a0dad, #8a2be2);  
+        color: white;  
+        text-align: center;  
+    }  
+
+    /* Login Card */  
+    .login-card {  
+        width: 100%;  
+        max-width: 380px;  
+        background: #fff;  
+        border-radius: 12px;  
+        padding: 25px;  
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);  
+    }  
+
+    /* Input Fields */  
+    .login-input {  
+        border-radius: 8px;  
+        padding: 10px;  
+        border: 1px solid #ccc;  
+        transition: 0.3s ease-in-out;  
+    }  
+
+    .login-input:focus {  
+        border-color: #8a2be2;  
+        box-shadow: 0px 0px 6px rgba(138, 43, 226, 0.2);  
+    }  
+
+    /* Login Button */  
+    .purple-btn {  
+        background-color: #8a2be2;  
+        color: white;  
+        font-size: 15px;  
+        padding: 10px;  
+        border-radius: 8px;  
+        width: 100%;  
+        transition: 0.3s ease-in-out;  
+    }  
+
+    .purple-btn:hover {  
+        background-color: #6a0dad;  
+    }  
+
+    /* Register Link */  
+    .register-link {  
+        color: #8a2be2;  
+        font-weight: bold;  
+        text-decoration: none;  
+    }  
+
+    .register-link:hover {  
+        text-decoration: underline;  
+    }  
+
+    /* Responsive Design */  
+    @media (max-width: 768px) {  
+        .login-card {  
+            width: 90%;  
+        }  
+    }  
+</style>  
+
+{% endblock %}

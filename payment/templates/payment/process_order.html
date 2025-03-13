@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="cart-header">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="cart-title">Processng Order</h1>
+            <p class="cart-subtitle">This is temporary..</p>
+        </div>
+    </div>
+</header>
+
+<style>
+    /* Header Styling */
+    .cart-header {
+        background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+        padding: 60px 0;
+        text-align: center;
+        border-radius: 0 0 50px 50px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-title {
+        font-size: 42px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .cart-subtitle {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    /* Card Styling */
+    .card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        padding: 20px;
+        border: none;
+        width: 100%;
+    }
+
+    .card:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+    }
+
+    /* Ensure both Order Summary & Shipping Info have equal width */
+    .order-summary, .shipping-info {
+        max-width: 500px;
+        margin: auto;
+    }
+
+    /* Shipping Form Container */
+    .shipping-container input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    .billing-btn {
+    background: transparent;
+    color: #4A00E0;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: block;
+    text-align: center;
+    width: 60%; /* Reduced width to 80% */
+    font-size: 16px;
+    margin: 10px auto; /* Centers the button */
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid #4A00E0;
+}
+
+.billing-btn:hover {
+    background: #4A00E0;
+    color: white;
+}
+
+
+
+
+</style>
+
+<br/>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            
+            <!-- Order Summary Card -->
+            <div class="card order-summary">
+                <div class="card-header">
+                    Order Summary
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                        <p>{{ product.name }}:
+                            {% if product.is_sale %}
+                                ₹{{ product.sale_price }}
+                            {% else %}
+                                ₹{{ product.price }}
+                            {% endif %}
+                            <br/>
+                            <small>Quantity:
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                            </small> 
+                        </p>
+                    {% endfor %}
+                    <strong>Total: ₹ {{ totals }}</strong>
+                    <br/><br/>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+                </div>
+            </div>
+            <br/>
+            <!-- Shipping Info Card -->
+            <div class="card shipping-info">
+                <div class="card-header">
+                    Shipping Info
+                </div>
+                <div class="card-body">
+                    
+                   Name: {{ shipping_info.shipping_full_name }}<br/>
+                   Email: {{ shipping_info.shipping_email }}<br/>
+                   Address 1: {{ shipping_info.shipping_address1 }}<br/>
+                   Address 2: {{ shipping_info.shipping_address2 }}<br/>
+                   City: {{ shipping_info.shipping_city }}<br/>
+                   State: {{ shipping_info.shipping_state }}<br/>
+                   Zipcode : {{ shipping_info.shipping_zipcode }}<br/>
+                   Counrty : {{ shipping_info.shipping_country }}<br/>
+                   <br/>
+                   <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Update Shipping</a>
+
+                </div>
+            </div>
+
+            <br/><br/><br/>
+            <div class="card shipping-info">
+                <div class="card-header">
+                    Billing info
+                </div>
+                <div class="card-body">
+                  <form method="POST" action="{% url 'process_order' %}">
+                    {% csrf_token %}
+                  {{ billing_form.as_p }}
+
+                </div>
+            </div>
+
+
+            <!-- Billing Button -->
+            <button type="submit" class="billing-btn">Pay Now</button>
+                    </form>
+            <br/>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
